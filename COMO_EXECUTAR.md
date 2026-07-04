@@ -8,6 +8,12 @@
 python executar.py
 ```
 
+## Estrutura Oficial
+
+- Use [executar.py](executar.py) como ponto de entrada.
+- O código ativo está em [geoestat_analyzer_novo/](geoestat_analyzer_novo/).
+- A pasta [geoestat_analyzer/](geoestat_analyzer/) é antiga e não é o caminho principal para novas alterações.
+
 **Pronto! Isso é tudo que o usuário precisa fazer:**
 
 1. ✅ Uma janela de seleção de arquivo abre

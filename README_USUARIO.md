@@ -24,6 +24,12 @@ cd "C:\Users\seu_usuario\OneDrive\Documentos\Vscode\.github\Aldino2"
 python executar.py
 ```
 
+## 🧭 Onde Está a Versão Oficial
+
+- O arquivo de entrada oficial é [executar.py](executar.py).
+- A implementação ativa fica em [geoestat_analyzer_novo/](geoestat_analyzer_novo/).
+- A pasta [geoestat_analyzer/](geoestat_analyzer/) é legada e existe para compatibilidade histórica.
+
 ## 🖱️ O que Acontece Depois
 
 Um **explorador de arquivos abrirá na sua tela**:
