@@ -1,0 +1,44 @@
+======================================================================
+RELATÓRIO DE INSIGHTS - ANÁLISE GEOESPACIAL AVANÇADA
+======================================================================
+
+1. VARIÁVEL COM MAIOR ESTRUTURA ESPACIAL
+   Variável: Teor_Au
+   Moran's I: 0.548002
+   p-valor: 1.93e-40
+   Significativo: Sim
+   Interpretação: forte autocorrelação espacial positiva
+
+2. CLUSTERS SIGNIFICATIVOS (p < 0.05)
+   Total de pontos: 250
+   Pontos em clusters: 250 (100.0%)
+   Quadrante dominante: HH
+   Distribuição: {'HH': np.int64(117), 'LL': np.int64(83), 'HL': np.int64(22), 'LH': np.int64(28), 'NS': np.int64(0)}
+
+3. HETEROGENEIDADE ESTATÍSTICA
+   Todas as variáveis têm heterogeneidade controlada
+
+4. EXTENSÃO GEOGRÁFICA
+   Longitude: 650050.615838° a 659868.869366°
+   Latitude:  7050108.376515° a 7059929.647961°
+   Centro: (7055019.012238°, 654959.742602°)
+   Dimensões: 1090161.13 km × -170716.28 km
+
+5. RECOMENDAÇÕES TÉCNICAS
+
+   • Monitoramento:
+     - Priorizar monitoramento de 'Teor_Au' - apresenta forte estrutura espacial (I=0.548)
+     - Concentrar vigilância em clusters HH - 100.0% dos pontos significativos
+
+   • Coleta de Dados:
+     - Ampliar coleta em zonas de transição (HL/LH): 50 pontos identificados
+
+   • Interpolação:
+     - Usar Kriging Ordinária para variáveis com autocorrelação significativa
+     - Validação cruzada (cross-validation) recomendada para seleção de semivariograma
+
+   • Análise Futura:
+     - Realizar análise multivariada (clustering) nas áreas HH para identificar subgrupos
+     - Investigar possíveis fatores causadores da estrutura espacial observada
+
+======================================================================

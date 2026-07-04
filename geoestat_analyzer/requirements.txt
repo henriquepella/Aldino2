@@ -1,0 +1,10 @@
+pandas==2.1.4
+numpy==1.24.3
+openpyxl==3.1.2
+matplotlib==3.8.2
+seaborn==0.13.0
+scipy==1.11.4
+reportlab==4.0.7
+geopandas==0.14.0
+pyproj==3.6.1
+Pillow==10.1.0
