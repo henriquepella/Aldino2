@@ -1,0 +1,59 @@
+# ---- Web / API ----
+fastapi==0.115.6
+uvicorn[standard]==0.34.0
+python-multipart==0.0.20
+pydantic==2.10.5
+pydantic-settings==2.7.1
+email-validator==2.2.0
+
+# ---- Auth ----
+pyjwt==2.10.1
+bcrypt==4.2.1
+
+# ---- Persistence ----
+SQLAlchemy==2.0.37
+alembic==1.14.1
+# psycopg2-binary==2.9.10   # uncomment for PostgreSQL / PostGIS; SQLite is the local default
+
+# ---- Async jobs (production backend; local default is an in-process thread pool) ----
+# celery==5.4.0
+# redis==5.2.1
+
+# ---- Data ----
+numpy==2.2.2
+pandas==2.2.3
+scipy==1.15.1
+openpyxl==3.1.5
+xlrd==2.0.1
+XlsxWriter==3.2.0
+
+# ---- Geo / CRS ----
+shapely==2.0.6
+pyproj==3.7.0
+geopandas==1.0.1
+
+# ---- Spatial statistics (ESDA) ----
+libpysal==4.12.1
+esda==2.6.0
+
+# ---- Geostatistics ----
+PyKrige==1.7.2
+
+# ---- Local spatial models (GWR / GWM) ----
+mgwr==2.2.1
+
+# ---- Regression / ML ----
+scikit-learn==1.6.1
+statsmodels==0.14.4
+
+# ---- Plotting / maps ----
+matplotlib==3.10.0
+contextily==1.6.2          # mapa-base (OSM / CARTO) nos mapas — requer internet ao renderizar
+rasterio==1.5.1            # export GeoTIFF + backend do contextily
+
+# ---- Reports ----
+reportlab==4.2.5
+
+# ---- Tests ----
+pytest==8.3.4
+httpx==0.28.1
