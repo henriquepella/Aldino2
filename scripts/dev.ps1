@@ -9,5 +9,4 @@ Start-Process powershell -ArgumentList "-NoExit", "-Command", $backend
 Start-Process powershell -ArgumentList "-NoExit", "-Command", $frontend
 
 Write-Host "Backend : http://localhost:8000/docs" -ForegroundColor Green
-Write-Host "Frontend: http://localhost:3000" -ForegroundColor Green
-Write-Host "Login demo: demo@demo.local / demo12345" -ForegroundColor Green
+Write-Host "Frontend: http://localhost:3000  (abre direto na lista de projetos)" -ForegroundColor Green

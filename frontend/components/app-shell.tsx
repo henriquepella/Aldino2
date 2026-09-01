@@ -3,7 +3,6 @@
 import Link from "next/link";
 import type { ReactNode } from "react";
 import { ThemeToggle } from "@/components/theme-toggle";
-import { UserMenu } from "@/components/user-menu";
 
 interface AppShellProps {
   children: ReactNode;
@@ -43,7 +42,6 @@ export function AppShell({ children, sidebar, title, right }: AppShellProps) {
         <div className="ml-auto flex items-center gap-1">
           {right}
           <ThemeToggle />
-          <UserMenu />
         </div>
       </header>
 

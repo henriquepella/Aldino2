@@ -10,7 +10,7 @@ import {
   DialogTitle,
   DialogTrigger,
 } from "@/components/ui/dialog";
-import { authedAssetUrl, downloadFile } from "@/lib/api";
+import { downloadFile } from "@/lib/api";
 import type { ArtifactOut } from "@/lib/types";
 import { cn } from "@/lib/utils";
 
@@ -32,7 +32,7 @@ function collectVariants(fig: ArtifactOut): { label: string; url: string }[] {
 
 export function FigureViewer({ fig, className }: { fig: ArtifactOut; className?: string }) {
   const [busy, setBusy] = React.useState<string | null>(null);
-  const src = authedAssetUrl(fig.url);
+  const src = fig.url;
   const title = fig.title || fig.name;
   const caption = fig.caption || "";
   const variants = collectVariants(fig);

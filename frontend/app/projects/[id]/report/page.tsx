@@ -5,7 +5,7 @@ import { DownloadButton } from "@/components/download-button";
 import { RunNotice } from "@/components/run-notice";
 import { Card, CardContent } from "@/components/ui/card";
 import { Skeleton } from "@/components/ui/skeleton";
-import { api, ApiError, authedAssetUrl } from "@/lib/api";
+import { api, ApiError } from "@/lib/api";
 import { useProject, useRun } from "@/lib/hooks";
 
 export default function ReportPage({ params }: { params: Promise<{ id: string }> }) {
@@ -68,7 +68,7 @@ export default function ReportPage({ params }: { params: Promise<{ id: string }>
             <CardContent className="p-0">
               <iframe
                 title="Pré-visualização do relatório PDF"
-                src={authedAssetUrl(api.reportUrl(runId))}
+                src={api.reportUrl(runId)}
                 className="h-[80vh] w-full border-0 bg-muted/30"
               />
             </CardContent>

@@ -27,4 +27,4 @@ Pop-Location
 
 Write-Host ""
 Write-Host "Pronto. Para iniciar:  .\scripts\dev.ps1" -ForegroundColor Green
-Write-Host "Login demo: demo@demo.local / demo12345" -ForegroundColor Green
+Write-Host "O app abre direto na lista de projetos (sem login)." -ForegroundColor Green

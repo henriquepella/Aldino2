@@ -9,6 +9,5 @@ trap cleanup EXIT
 ( cd "$ROOT/frontend" && npm run dev ) &
 
 echo "Backend : http://localhost:8000/docs"
-echo "Frontend: http://localhost:3000"
-echo "Login demo: demo@demo.local / demo12345"
+echo "Frontend: http://localhost:3000  (abre direto na lista de projetos)"
 wait

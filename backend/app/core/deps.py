@@ -1,52 +1,27 @@
-"""Dependencies compartilhadas: sessão de DB e usuário autenticado (seção 40)."""
+"""Dependencies compartilhadas: sessão de DB e usuário da aplicação.
+
+O sistema de login foi removido — a plataforma opera com um único usuário
+implícito (o "usuário demo"), criado automaticamente no primeiro acesso.
+Todas as rotas continuam recebendo um ``User`` real, de modo que os vínculos
+por ``owner_id`` e o isolamento de arquivos em disco seguem funcionando.
+"""
 from __future__ import annotations
 
 from typing import Annotated
 
-import jwt
-from fastapi import Depends, HTTPException, Query, status
-from fastapi.security import OAuth2PasswordBearer
+from fastapi import Depends, HTTPException
 from sqlalchemy.orm import Session
 
-from app.core.config import settings
-from app.core.security import decode_token
+from app.db.init_db import ensure_demo_user
 from app.db.session import get_session
 from app.models import AnalysisRun, Dataset, Project, User
-
-oauth2_scheme = OAuth2PasswordBearer(
-    tokenUrl=f"{settings.api_v1_prefix}/auth/login", auto_error=False
-)
 
 DbSession = Annotated[Session, Depends(get_session)]
 
 
-def get_current_user(
-    db: DbSession,
-    header_token: Annotated[str | None, Depends(oauth2_scheme)] = None,
-    query_token: Annotated[str | None, Query(alias="token")] = None,
-) -> User:
-    """Aceita o token via cabeçalho ``Authorization: Bearer`` OU ``?token=``
-    (necessário para servir imagens/PDFs em ``<img>`` / links diretos)."""
-    cred_exc = HTTPException(
-        status_code=status.HTTP_401_UNAUTHORIZED,
-        detail="Credenciais inválidas ou expiradas.",
-        headers={"WWW-Authenticate": "Bearer"},
-    )
-    token = header_token or query_token
-    if not token:
-        raise cred_exc
-    try:
-        payload = decode_token(token)
-        user_id = payload.get("sub")
-        if not user_id or payload.get("type") != "access":
-            raise cred_exc
-    except jwt.PyJWTError:
-        raise cred_exc
-
-    user = db.get(User, user_id)
-    if user is None or not user.is_active:
-        raise cred_exc
-    return user
+def get_current_user(db: DbSession) -> User:
+    """Retorna o usuário único da aplicação (criado sob demanda)."""
+    return ensure_demo_user(db)
 
 
 CurrentUser = Annotated[User, Depends(get_current_user)]

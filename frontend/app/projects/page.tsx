@@ -23,7 +23,6 @@ import type { ProjectOut, RunStatus } from "@/lib/types";
 import { fmtDate } from "@/lib/format";
 import { AppShell } from "@/components/app-shell";
 import { EmptyState } from "@/components/empty-state";
-import { RequireAuth } from "@/components/require-auth";
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
@@ -360,10 +359,8 @@ function ProjectsView() {
 
 export default function ProjectsPage() {
   return (
-    <RequireAuth>
-      <AppShell>
-        <ProjectsView />
-      </AppShell>
-    </RequireAuth>
+    <AppShell>
+      <ProjectsView />
+    </AppShell>
   );
 }

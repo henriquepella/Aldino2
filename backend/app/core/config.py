@@ -32,15 +32,6 @@ class Settings(BaseSettings):
     api_v1_prefix: str = "/api"
     debug: bool = True
 
-    # ---- Segurança / Auth ----
-    secret_key: str = Field(
-        default="dev-insecure-change-me-please-0123456789abcdef",
-        description="Chave para assinatura JWT. OBRIGATÓRIO definir em produção.",
-    )
-    jwt_algorithm: str = "HS256"
-    access_token_expire_minutes: int = 60 * 24 * 7  # 7 dias
-    allow_registration: bool = True
-
     # ---- Banco de dados ----
     database_url: str = Field(
         default="sqlite:///./storage/app.db",

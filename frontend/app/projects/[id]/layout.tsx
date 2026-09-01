@@ -5,7 +5,6 @@ import { usePathname } from "next/navigation";
 import { use, useMemo, useState, type ReactNode } from "react";
 import { AppShell } from "@/components/app-shell";
 import { NavLink } from "@/components/nav-link";
-import { RequireAuth } from "@/components/require-auth";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogTitle } from "@/components/ui/dialog";
 import { Separator } from "@/components/ui/separator";
@@ -26,11 +25,7 @@ export default function ProjectLayout({
   params: Promise<{ id: string }>;
 }) {
   const { id } = use(params);
-  return (
-    <RequireAuth>
-      <ProjectShell id={id}>{children}</ProjectShell>
-    </RequireAuth>
-  );
+  return <ProjectShell id={id}>{children}</ProjectShell>;
 }
 
 function ProjectShell({ id, children }: { id: string; children: ReactNode }) {

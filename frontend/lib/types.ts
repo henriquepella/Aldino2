@@ -1,18 +1,5 @@
 // Espelha os schemas Pydantic do backend (app/schemas).
 
-export interface UserOut {
-  id: string;
-  email: string;
-  full_name: string;
-  is_demo: boolean;
-}
-
-export interface Token {
-  access_token: string;
-  token_type: string;
-  expires_in: number;
-}
-
 export interface ColumnInfo {
   name: string;
   dtype: string;

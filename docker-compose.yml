@@ -33,7 +33,6 @@ services:
     environment:
       APP_ENV: production
       DEBUG: "false"
-      SECRET_KEY: ${SECRET_KEY:-change-me-in-production-0123456789abcdef}
       DATABASE_URL: postgresql+psycopg2://geo:geo@db:5432/geo
       STORAGE_DIR: /data/storage
       JOB_BACKEND: celery
@@ -53,7 +52,6 @@ services:
     command: celery -A app.worker.celery_app worker --loglevel=info --concurrency=2
     environment:
       APP_ENV: production
-      SECRET_KEY: ${SECRET_KEY:-change-me-in-production-0123456789abcdef}
       DATABASE_URL: postgresql+psycopg2://geo:geo@db:5432/geo
       STORAGE_DIR: /data/storage
       JOB_BACKEND: celery

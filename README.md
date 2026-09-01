@@ -67,12 +67,8 @@ chmod +x scripts/*.sh
 ./scripts/dev.sh
 ```
 
-Acesse **http://localhost:3000** e entre com a conta de demonstração:
-
-```
-E-mail: demo@demo.local
-Senha : demo12345
-```
+Acesse **http://localhost:3000** — a aplicação abre direto na lista de projetos
+(não há login).
 
 O projeto **“Análise de Solo 2026”** já vem carregado com um dataset sintético
 (~480 pontos, 12 variáveis de fertilidade do solo) — basta clicar em
@@ -85,7 +81,7 @@ python -m venv .venv
 .venv/Scripts/pip install -r backend/requirements.txt      # (Linux: .venv/bin/pip)
 python sample_data/generate_demo.py                         # gera demo_soil.xlsx / .csv
 cp .env.example .env
-python scripts/seed_demo.py                                 # cria usuário + projeto demo
+python scripts/seed_demo.py                                 # cria o projeto demo
 cd backend && ../.venv/Scripts/python -m uvicorn app.main:app --reload --port 8000
 # noutro terminal:
 cd frontend && npm install && npm run dev
@@ -96,7 +92,7 @@ cd frontend && npm install && npm run dev
 ## Início rápido (Docker)
 
 ```bash
-cp .env.example .env          # ajuste SECRET_KEY
+cp .env.example .env
 docker compose up --build
 ```
 
@@ -190,7 +186,6 @@ sempre comparada, na mesma validação cruzada, com a krigagem ordinária pura.
 
 | Método | Rota | Descrição |
 |---|---|---|
-| `POST` | `/auth/register`, `/auth/login` | JWT (OAuth2 password) |
 | `GET` | `/meta/template.xlsx` | modelo de planilha |
 | `GET/POST` | `/projects` … | CRUD de projetos, duplicar |
 | `POST` | `/projects/{id}/datasets` | upload (valida extensão/tamanho/parse) |
@@ -201,7 +196,8 @@ sempre comparada, na mesma validação cruzada, com a krigagem ordinária pura.
 | `GET` | `/runs/{id}/results` | resultados estruturados (tabelas, figuras, interpretação) |
 | `GET` | `/runs/{id}/report.pdf` · `/package.zip` · `/tables.xlsx` | downloads |
 
-Cada usuário só acessa os próprios projetos (isolamento por `owner_id`).
+A aplicação não tem login: opera com um único usuário implícito, criado
+automaticamente. Todos os projetos, bases e execuções pertencem a ele.
 
 ---
 
@@ -217,7 +213,6 @@ Destaques:
 | `MAX_UPLOAD_MB` | `50` | limite de upload |
 | `DEFAULT_N_PERMUTATIONS` | `999` | permutações dos testes de Moran |
 | `DEFAULT_GRID_RESOLUTION` | `80` | células por eixo na grade de interpolação |
-| `SECRET_KEY` | inseguro | **obrigatório trocar em produção** |
 
 Parâmetros avançados (nº de vizinhos, potência IDW, modelos de variograma,
 métrica de seleção, bandwidth…) podem ser ajustados por projeto na tela de
@@ -228,13 +223,13 @@ métrica de seleção, bandwidth…) podem ser ajustados por projeto na tela de
 ## Testes
 
 ```bash
-cd backend && ../.venv/Scripts/python -m pytest -q      # 44 testes
+cd backend && ../.venv/Scripts/python -m pytest -q
 cd frontend && npm run build                            # typecheck + build
 ```
 
 Cobrem: detecção de colunas, validação/limpeza, ingestão (formatos BR/intl),
 cada módulo de análise, o **pipeline completo** (até PDF + ZIP) e o
-**ciclo de vida da API** (upload → run → resultados → downloads → isolamento).
+**ciclo de vida da API** (upload → run → resultados → downloads).
 
 ---
 
@@ -243,8 +238,8 @@ cada módulo de análise, o **pipeline completo** (até PDF + ZIP) e o
 ```
 backend/
   app/
-    api/            routers FastAPI (auth, projects, datasets, runs, reports, exports, meta)
-    core/           config, segurança (JWT), logging, dependencies
+    api/            routers FastAPI (projects, datasets, runs, reports, exports, meta)
+    core/           config, logging, dependencies
     models/         SQLAlchemy (User, Project, Dataset, AnalysisRun, ResultArtifact)
     schemas/        Pydantic
     services/       ingest, detection, validation, pipeline, jobs, packaging, storage
@@ -256,10 +251,10 @@ backend/
   alembic/          migrações
   tests/
 frontend/
-  app/              rotas (auth, projects/[id]/{upload,configure,diagnostics,settings,run,
+  app/              rotas (projects/[id]/{upload,configure,diagnostics,settings,run,
                     dashboard, e as seções de resultado})
   components/       ui/ (primitivos), results/ (tabelas, figuras, interpretação), shell
-  lib/              api, hooks (react-query), auth, types, format
+  lib/              api, hooks (react-query), types, format
 sample_data/        gerador de dados sintéticos + demo_soil.xlsx/.csv
 scripts/            setup / dev / seed_demo
 docker-compose.yml  db (PostGIS) + redis + backend + worker + frontend

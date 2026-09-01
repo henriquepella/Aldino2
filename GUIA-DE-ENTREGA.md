@@ -98,16 +98,15 @@ chmod +x scripts/*.sh
 ### Opção C — Docker (stack de produção)
 
 ```bash
-cp .env.example .env          # ajuste SECRET_KEY
+cp .env.example .env
 docker compose up --build
 docker compose exec backend python scripts/seed_demo.py
 ```
 
 ### Acesso (qualquer opção)
 
-- Interface: **http://localhost:3000**
+- Interface: **http://localhost:3000** — abre direto na lista de projetos (sem login)
 - API / documentação: **http://localhost:8000/docs**
-- Conta de demonstração: **demo@demo.local** / **demo12345**
 - O projeto *“Análise de Solo 2026”* já vem carregado — clique em
   **Executar análise completa**.
 
@@ -115,7 +114,7 @@ docker compose exec backend python scripts/seed_demo.py
 
 ```bash
 cd backend
-../.venv/Scripts/python -m pytest -q      # 44 testes — todos passam
+../.venv/Scripts/python -m pytest -q      # todos passam
 ```
 
 ---
@@ -130,7 +129,7 @@ projeto/
 │  ├─ app/services/     ingestão, detecção, validação, pipeline, jobs, empacotamento
 │  ├─ app/maps/         renderização de mapas
 │  ├─ app/reports/      gerador de PDF
-│  ├─ tests/            44 testes automatizados
+│  ├─ tests/            testes automatizados
 │  └─ requirements.txt
 ├─ frontend/
 │  ├─ app/              26 telas (assistente, painel, seções de resultado)
@@ -150,8 +149,8 @@ projeto/
 - **Arquivos originais preservados** em `backend/storage/`, separados dos resultados.
 - **Reprocessar do zero:** apague `backend/storage/app.db` e `backend/storage/users/`,
   depois rode `python scripts/seed_demo.py`.
-- **Produção:** defina `SECRET_KEY`, use `DATABASE_URL` com PostgreSQL/PostGIS e
-  `JOB_BACKEND=celery` — tudo já está no `.env.example` e no `docker-compose.yml`.
+- **Produção:** use `DATABASE_URL` com PostgreSQL/PostGIS e `JOB_BACKEND=celery`
+  — tudo já está no `.env.example` e no `docker-compose.yml`.
 - **Mapa-base:** configurável por projeto (Configurações → Parâmetros avançados)
   ou via `DEFAULT_BASEMAP` no `.env` (`satellite` / `streets` / `gray` / `topo` /
   `terrain` / `none`).

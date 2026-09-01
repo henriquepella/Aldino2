@@ -5,34 +5,11 @@ import type {
   ProjectOut,
   RunOut,
   RunResultsOut,
-  Token,
-  UserOut,
   ValidationResult,
 } from "./types";
 
 export const API_BASE =
   process.env.NEXT_PUBLIC_API_URL?.replace(/\/$/, "") || "/api";
-
-const TOKEN_KEY = "geo_token";
-
-export function getToken(): string | null {
-  if (typeof window === "undefined") return null;
-  try {
-    return window.localStorage.getItem(TOKEN_KEY);
-  } catch {
-    return null;
-  }
-}
-
-export function setToken(t: string | null) {
-  if (typeof window === "undefined") return;
-  try {
-    if (t) window.localStorage.setItem(TOKEN_KEY, t);
-    else window.localStorage.removeItem(TOKEN_KEY);
-  } catch {
-    /* ignore */
-  }
-}
 
 export class ApiError extends Error {
   status: number;
@@ -50,8 +27,6 @@ type ReqOpts = Omit<RequestInit, "body"> & {
 
 async function request<T>(path: string, opts: ReqOpts = {}): Promise<T> {
   const headers = new Headers(opts.headers);
-  const token = getToken();
-  if (token) headers.set("Authorization", `Bearer ${token}`);
 
   let body: BodyInit | undefined;
   if (opts.form) {
@@ -66,9 +41,6 @@ async function request<T>(path: string, opts: ReqOpts = {}): Promise<T> {
 
   const res = await fetch(`${API_BASE}${path}`, { ...opts, headers, body });
 
-  if (res.status === 401 && typeof window !== "undefined") {
-    setToken(null);
-  }
   if (!res.ok) {
     let msg = res.statusText;
     try {
@@ -85,16 +57,6 @@ async function request<T>(path: string, opts: ReqOpts = {}): Promise<T> {
 }
 
 export const api = {
-  // ---- auth ----
-  register: (email: string, password: string, full_name = "") =>
-    request<Token>("/auth/register", { method: "POST", body: { email, password, full_name } }),
-  login: (email: string, password: string) =>
-    request<Token>("/auth/login", {
-      method: "POST",
-      form: new URLSearchParams({ username: email, password }),
-    }),
-  me: () => request<UserOut>("/auth/me"),
-
   // ---- meta ----
   versions: () => request<{ libraries: Record<string, string> }>("/meta/versions"),
   templateUrl: () => `${API_BASE}/meta/template.xlsx`,
@@ -147,12 +109,9 @@ export const api = {
     `${API_BASE}/runs/${runId}/artifacts/${artifactId}`,
 };
 
-/** Faz download autenticado de um arquivo (o backend exige Bearer). */
+/** Faz download de um arquivo do backend. */
 export async function downloadFile(url: string, filename: string) {
-  const token = getToken();
-  const res = await fetch(url, {
-    headers: token ? { Authorization: `Bearer ${token}` } : undefined,
-  });
+  const res = await fetch(url);
   if (!res.ok) throw new ApiError(res.status, "Falha no download");
   const blob = await res.blob();
   const a = document.createElement("a");
@@ -162,12 +121,4 @@ export async function downloadFile(url: string, filename: string) {
   a.click();
   a.remove();
   URL.revokeObjectURL(a.href);
-}
-
-/** URL de imagem/artefato com token em querystring (para <img src>). */
-export function authedAssetUrl(url: string): string {
-  const token = getToken();
-  if (!token) return url;
-  const sep = url.includes("?") ? "&" : "?";
-  return `${url}${sep}token=${encodeURIComponent(token)}`;
 }

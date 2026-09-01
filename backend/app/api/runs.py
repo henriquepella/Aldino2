@@ -4,7 +4,7 @@ from fastapi import APIRouter, HTTPException, Query
 from fastapi.responses import FileResponse
 from sqlalchemy import select
 
-from app.core.deps import CurrentUser, DbSession, OwnedProject, OwnedRun
+from app.core.deps import DbSession, OwnedProject, OwnedRun
 from app.models import AnalysisRun, ArtifactKind, Dataset, ResultArtifact, RunStatus
 from app.schemas.run import (
     ArtifactOut,

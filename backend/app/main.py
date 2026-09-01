@@ -44,10 +44,9 @@ async def _unhandled(request: Request, exc: Exception):  # pragma: no cover
 
 
 # ---- routers -------------------------------------------------------------- #
-from app.api import auth, meta  # noqa: E402
+from app.api import meta  # noqa: E402
 
 API = settings.api_v1_prefix
-app.include_router(auth.router, prefix=API)
 app.include_router(meta.router, prefix=API)
 
 try:  # routers adicionados na fase 3

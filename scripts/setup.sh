@@ -25,4 +25,4 @@ cd "$ROOT"
 
 echo
 echo "Pronto. Para iniciar:  ./scripts/dev.sh"
-echo "Login demo: demo@demo.local / demo12345"
+echo "O app abre direto na lista de projetos (sem login)."

@@ -19,11 +19,9 @@ def client():
 
 
 @pytest.fixture(scope="module")
-def auth(client) -> dict:
-    email = f"api_{int(time.time())}@t.com"
-    r = client.post("/api/auth/register", json={"email": email, "password": "abcd1234", "full_name": "API"})
-    assert r.status_code == 201, r.text
-    return {"Authorization": f"Bearer {r.json()['access_token']}"}
+def auth() -> dict:
+    # Login removido: a API opera com um único usuário implícito.
+    return {}
 
 
 @pytest.fixture(scope="module")
@@ -46,12 +44,6 @@ def small_xlsx() -> bytes:
     with pd.ExcelWriter(buf, engine="xlsxwriter") as xw:
         df.to_excel(xw, index=False, sheet_name="dados")
     return buf.getvalue()
-
-
-def test_auth_me(client, auth):
-    r = client.get("/api/auth/me", headers=auth)
-    assert r.status_code == 200
-    assert "@" in r.json()["email"]
 
 
 def test_project_dataset_run_flow(client, auth, small_xlsx):
@@ -125,11 +117,9 @@ def test_project_dataset_run_flow(client, auth, small_xlsx):
     xlsx = client.get(f"/api/runs/{rid}/tables.xlsx", headers=auth)
     assert xlsx.status_code == 200
 
-    # --- isolamento ---
-    r2 = client.post("/api/auth/register", json={"email": f"other_{int(time.time())}@t.com", "password": "abcd1234"})
-    other = {"Authorization": f"Bearer {r2.json()['access_token']}"}
-    assert client.get(f"/api/runs/{rid}", headers=other).status_code == 404
-    assert client.get(f"/api/projects/{pid}", headers=other).status_code == 404
+    # --- IDs inexistentes retornam 404 ---
+    assert client.get("/api/runs/nao-existe", headers=auth).status_code == 404
+    assert client.get("/api/projects/nao-existe", headers=auth).status_code == 404
 
 
 def test_reject_bad_upload(client, auth):
