@@ -1,5 +1,7 @@
 # Plataforma de Análise Geoestatística
 
+> 💼 **Projeto freelancer** desenvolvido entre 02/2025 e 03/2025 para um cliente (remoto).
+
 Aplicação web que transforma uma planilha de dados espaciais (Excel/CSV) em uma
 cadeia completa de análises, mapas e um **relatório técnico em PDF** — de ponta a
 ponta e de forma automatizada.
